@@ -5,8 +5,6 @@ import {
     doc, updateDoc 
 } from "https://www.gstatic.com/firebasejs/10.7.0/firebase-firestore.js";
 
-const BASE_URL = 'https://o6wl0z7avc.execute-api.eu-north-1.amazonaws.com/';
-
 const postNoteButton = document.querySelector('#postNotesButton');
 const getNoteButton = document.querySelector('#getNotesButton');
 const notesElem = document.querySelector('#notes');
