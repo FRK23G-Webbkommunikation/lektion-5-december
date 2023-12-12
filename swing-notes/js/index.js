@@ -11,6 +11,8 @@ const notesElem = document.querySelector('#notes');
 
 async function postNote(note) {
     try {
+        // Skapar en ny note i databasen där man skickar med i vilken collection den ska skapas samt vilka fält som ska finnas med
+
         await addDoc(collection(db, 'notes'), note)
     } catch (error) {
         console.log(`ERROR: ${error}`);
@@ -19,13 +21,17 @@ async function postNote(note) {
 
 async function getNotes(username) {
     try {
+        // Här bygger vi upp en fråga till vår databas, först bestämmer vi i vilken collection vi vill söka i collection(db, 'highscore')
+        // Sen vad vi ska söka efter och detta fall efter ett specifikt användarnamn where('username', '==', username);
+        // Till sist utför vi frågan mot databasen await getDocs(queryUsername);
+
         const queryUsername = query(collection(db, 'notes'), where('username', '==', username));
         const notes = await getDocs(queryUsername);
 
-        const formatedNotes = [];
+        const formatedNotes = []; // Variabel för att spara datan från firestore
 
         notes.forEach((note) => {
-            const formatedNote = {
+            const formatedNote = { // Bygger upp ett objekt som innehåller både fälten i dokumentet samt dokumentets id
                 id: note.id,
                 note: note.data()
             }
@@ -41,6 +47,8 @@ async function getNotes(username) {
 
 async function deleteNote(id) {
     try {
+        // Tar bort ett dokument baserat på dokumentets id i collection notes
+
         await deleteDoc(doc(db, 'notes', id));
     } catch (error) {
         console.log(`ERROR: ${error}`);
@@ -49,6 +57,8 @@ async function deleteNote(id) {
 
 async function updateNote(noteText, id) {
     try {
+        // Uppdaterar ett dokument baserat på dokumentets id i collection notes, skickar med ett objekt med de fält man vill uppdatera
+
         await updateDoc(doc(db, 'notes', id), {
             note: noteText
         })
